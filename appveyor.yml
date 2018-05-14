@@ -8,8 +8,11 @@ configuration: Release
 nuget:
   project_feed: true
 before_build:
-- cmd: nuget restore
+- nuget restore
+- choco install opencover.portable
+- choco install codecov
 build:
+  project: EDDI.sln
   verbosity: minimal
 test:
   categories:
@@ -17,3 +20,15 @@ test:
     - Speech
     - DocGen
     - Network
+
+# use codecov python script. Requires python to be available, which it is on AppVeyor machine image
+test_script:
+- OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\Tests\bin\Debug\Tests.dll -noshadow" -filter:"+[UnitTestTargetProject*]* -[MyUnitTests*]*" -output:".\EDDI_coverage.xml"
+- codecov -f "EDDI_coverage.xml"
+
+ # use codecov python package. Requires python to be available, which it is on AppVeyor machine image, and then we have to install the codecov package
+after_test:
+  - ps: |
+      $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
+      Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
+      bash codecov.sh -f "coverage.xml" -t c0cc9048-1cdc-464b-b2fa-dac79464e1c4
