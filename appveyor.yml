@@ -18,6 +18,7 @@ test:
     - DocGen
     - Network
 
+
 # CodeCov + Appveyor example: https://github.com/ceddlyburge/codecov-on-appveyor/blob/master/appveyor.yml
 test_script:
 - .\packages\<ADD PATH>\OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\Tests\bin\Debug\Tests.dll -noshadow" -filter:"+[EDDI*]* -[UnitTests*]*" -output:".\EDDI_coverage.xml"
