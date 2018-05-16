@@ -21,3 +21,9 @@ test:
 test_script:
 - .\packages\<ADD PATH>\OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\Tests\bin\Debug\Tests.dll -noshadow" -filter:"+[EDDI*]* -[UnitTests*]*" -output:".\EDDI_coverage.xml"
 - .\packages\<ADD PATH>\codecov.exe -f "EDDI_coverage.xml"
+
+after_test:
+  - ps: |
+      $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
+      Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
+      bash codecov.sh -f "coverage.xml" -t c0cc9048-1cdc-464b-b2fa-dac79464e1c4
