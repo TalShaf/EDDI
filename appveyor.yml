@@ -1,7 +1,6 @@
 version: 3.0.0-rc2-{build}
 branches:
-  only:
-  - develop
+
 skip_tags: true
 image: Visual Studio 2017
 configuration: Release
