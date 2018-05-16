@@ -18,7 +18,7 @@ test:
 
 # CodeCov + Appveyor example: https://github.com/ceddlyburge/codecov-on-appveyor/blob/master/appveyor.yml
 test_script:
-- .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -oldstyle -register:user -target:"vstest.console.exe" -targetargs:".\Tests\bin\Debug\Tests.dll -noshadow" -filter:"+[Eddi*]* -[UnitTests*]*" -output:".\EDDI_coverage.xml"
+- .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -oldstyle -register:user -target:"%VSINSTALLDIR%\Common7\IDE\mstest.exe" -targetargs:".\Tests\bin\Debug\Tests.dll -noshadow" -filter:"+[*]* -[UnitTests*]*" -output:".\EDDI_coverage.xml"
 - .\packages\Codecov.1.0.3\tools\codecov.exe -f "EDDI_coverage.xml"
 
 after_test:
